@@ -7,12 +7,16 @@ library(DiagrammeR)
 
 # sample data
 df1 = data_frame(id = 1:5, state = c("Initiate", "Process", "Dispatch", "Receive", "Acknowledge"), 
-                 time_in_hours = c(5, 2, 10, 3, NA))
+                 avg_time = c(5, 2, 10, 3, NA), 
+                 med_time = c(6, 3, 9, 2, NA), 
+                 min_time = c(1, 0, 0, 1, NA), 
+                 max_time = c(10, 4, 15, 5, NA))
 
 df1.1= df1 %>%
   mutate(transition = paste(state, lead(state), sep = "->>")) %>%
-  filter(!is.na(time_in_hours)) %>%
-  mutate(mmd_row = paste0(transition, ": ", time_in_hours, " hours"))
+  filter(!is.na(avg_time)) %>%
+  mutate(mmd_row = paste0(transition, ": {", avg_time, ", ", 
+                          med_time, ", ", min_time, ", ", max_time, "} hours"))
 
 seq = "sequenceDiagram"
 eol = "\n"
